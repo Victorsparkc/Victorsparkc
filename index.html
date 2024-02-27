@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student ID Card Reader</title>
+</head>
+<body>
+    <form id="">
+        <label for="studentId">Student ID:</label>
+        <input type="text" id="studentId" name="studentId" required>
+        <label for="studentName">Student Name:</label>
+        <input type="text" id="studentName" name="studentName" required>
+        <button type="submit">Submit</button>
+    </form>
+
+    <script>
+        document.getElementById('studentForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            var studentId = document.getElementById('studentId').value;
+            var studentName = document.getElementById('studentName').value;
+
+            if (!studentId || !studentName) {
+                alert('Please enter both the student ID and student name.');
+                return;
+            }
+
+            // Send the data to the server-side script for processing
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', 'processStudentData.php', true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.send('studentId=' + encodeURIComponent(studentId) + '&studentName=' + encodeURIComponent(studentName));
+
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    alert('Student data processed successfully.');
+                } else if (xhr.readyState === 4) {
+                    alert('An error occurred while processing the student data.');
+                }
+            };
+        });
+    </script>
+</body>
+</html>
+}
